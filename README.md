@@ -1,5 +1,21 @@
 # CarND-PID-Control-Project
 Self-Driving Car Engineer Nanodegree Program
+---
+[flowchart]: ./img/overshoot_flowchart.gif
+
+## Reflection
+1. Describe the effect each of the P, I, D components had in your implementation.  
+The __P__ component is the proportional part of the controller. It's the difference between target value and sensor reading. In our case it gets computed by the simulator and is called *cte* or cross track error. The higher it gets the higher the result of the controller. It pulls the car towards the target point and gets smaller the closer it gets.  
+The __D__ component is the derivative part of the __P__ component. It's the difference of the current error and the previous error divided by the time passed between measurements. It prevents overshooting and therefore an oscillation of the car but slows down the response of the controller.  
+The __I__ component is the integral part of the controller. It's basically the sum of all error values sent from the simulator. It can increase the response time but too high gain values can cause oscillation and a instable controller.
+
+2. Describe how the final hyper-parameters were chosen.  
+I first implemented a twiddle algorithm to automatically tune the parameters. After several runs which never lead to satisfying results, I removed it and started with manual tuning.  
+In hindsight was not the implementation faulty but the high latency between simulator and web socket.
+To tune manually I used following flowchart:  
+![PID Tuning Flowchart][flowchart]  
+This might not be the fastest and most accurate way of tuning a PID controller but it gave me a feeling and understanding of the individual constants _Kp_, _Kd_ and _Ki_.  
+My final values are (0.15, 0.0005, 1.8) for _Kp_, _Kd_ and _Ki_ respectively. Those parameters were tuned with the v1.45 simulator on lowest graphics quality and a screen resolution of 960x720.
 
 ---
 
@@ -19,7 +35,7 @@ Self-Driving Car Engineer Nanodegree Program
   * Run either `./install-mac.sh` or `./install-ubuntu.sh`.
   * If you install from source, checkout to commit `e94b6e1`, i.e.
     ```
-    git clone https://github.com/uWebSockets/uWebSockets 
+    git clone https://github.com/uWebSockets/uWebSockets
     cd uWebSockets
     git checkout e94b6e1
     ```
@@ -33,7 +49,7 @@ There's an experimental patch for windows in this [PR](https://github.com/udacit
 1. Clone this repo.
 2. Make a build directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Run it: `./pid`. 
+4. Run it: `./pid`.
 
 ## Editor Settings
 

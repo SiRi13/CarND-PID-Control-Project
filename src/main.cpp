@@ -41,7 +41,7 @@ int main() {
   // s_pid.Init(0.15, 1.0e-4, 1.5);
   // s_pid.Init(0.1355, 1.0e-4, 1.65);
   // s_pid.Init(0.1, 0.0005, 1.8);
-  s_pid.Init(0.02, 0.0005, 1.8);
+  s_pid.Init(0.15, 0.0005, 1.8);
 
   h.onMessage([&s_pid](uWS::WebSocket<uWS::SERVER> ws, char *data,
                        size_t length, uWS::OpCode opCode) {
@@ -92,7 +92,7 @@ int main() {
                     << "\ni_error: " << s_pid.i_error
                     << "\nd_error: " << s_pid.d_error << std::endl;
 
-          if (s_pid.steps_ > 20 && (speed < 2.5 || fabs(cte) > 4.5)) {
+          if (s_pid.steps_ > 50 && (speed < 2.5 || fabs(cte) > 4.5)) {
             s_pid.Reset();
             ResetSimulator(ws);
           }
